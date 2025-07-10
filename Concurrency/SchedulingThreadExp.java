@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
  * scheduleWithFixedDelay(Runnable cmd, long init,long delay,TimeUnit u)
  * 
  */
-public class SchedulingThreadExps {
+public class SchedulingThreadExp {
 
     public static void scheduleExp(ScheduledExecutorService s) {
         s = Executors.newSingleThreadScheduledExecutor();
