@@ -2,6 +2,7 @@ package Concurrency;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 /*
  * The Concurrency API includes the ExecutorService interface  which defines services to create & manage threads
@@ -9,6 +10,7 @@ import java.util.concurrent.Executors;
  * 
  * 
  * Shuting down tasks has a lifecycle 
+ * ----------------------------------
  * shutdown() and isTerminated() are used to check lifecycle while shutting down a thread
  *      Active -> both methods return false
  *      Shutting Down - > isShutdown==true, isTerminated==false
@@ -16,15 +18,25 @@ import java.util.concurrent.Executors;
  * 
  * 
  * You can submit a task to an executor service in several ways
+ * ------------------------------------------------------------
  *  void execute(Runnable cmd) 
  *  Future<?> submit(Runnable task)
  *  <T> Future<T> submit(Callable<T> task)
  *  <T> List<Future<T>> invokeAll(Collection<? extends Callable<T>> tasks) throws InterruptedException
  * <T> T invokeAny(Collection<? extents Callable<T>> tasks) throws InterruptedException,ExecutionException
+ * 
+ *  Future Methods
+ *  --------------
+ *  boolean isDone()
+ *  boolean isCancelled()
+ *  boolean cancel(boolean mayInterruptIfRunning)
+ *  v get()
+ *  v get(Long timeout, TimeUnit unit)
+ * 
  */
 public class ConcurrencyApiExp {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         ExecutorService service = null;
         Runnable t1 = () -> System.out.println("getting inventory");
         Runnable t2 = () -> {
@@ -43,5 +55,16 @@ public class ConcurrencyApiExp {
             if (service != null)
                 service.shutdown();
         }
+
+        Future<?> future = service.submit(() -> {
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println("hello from the future");
+        });
+
     }
+
 }
